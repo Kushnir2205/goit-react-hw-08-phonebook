@@ -1,25 +1,18 @@
-import { getContactsThunk } from 'Redux/thunks.js';
-import { ContactForm } from '../ContactForm/ContactForm.jsx';
-import { ContactList } from '../ContactList/ContactList.jsx';
-import styles from './App.module.css';
-import { Filter } from 'components/Filter/Filter.jsx';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import Layout from 'components/Layout/Layout.jsx';
+import LoginPage from 'Pages/LoginPage/LoginPage.js';
+import RegisterPage from 'Pages/RegisterPage/RegisterPage.js';
+import ContactsPage from 'Pages/ContactsPage/ContactsPage.js';
 
 const App = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getContactsThunk());
-  }, [dispatch]);
-
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Phonebook</h1>
-      <ContactForm />
-      <h2 className={styles.title}>Contacts</h2>
-      <Filter />
-      <ContactList />
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
+        <Route path="contacts" element={<ContactsPage />} />
+      </Route>
+    </Routes>
   );
 };
 
