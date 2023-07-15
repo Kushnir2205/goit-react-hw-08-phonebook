@@ -54,3 +54,22 @@ export const logOutThunk = createAsyncThunk(
     }
   }
 );
+
+export const refreshThunk = createAsyncThunk(
+  'auth/refresh',
+  async (_, thunkAPI) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState();
+    if (!token) {
+      return thunkAPI.rejectWithValue('Unable to find user');
+    }
+    try {
+      setAuthHeader(token);
+      const data = await instance.get('users/current');
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
