@@ -9,7 +9,7 @@ import { editContactThunk } from 'Redux/Contacts/operations';
 export const ContactList = () => {
   const dispatch = useDispatch();
   const filteredContacts = useSelector(selectFilteredContact);
-  const [isEdit, stateIsEdit] = useState(false);
+  const [indexEdit, setIndexEdit] = useState(null);
   const [editName, setEditName] = useState('');
   const [editNumber, setEditNumber] = useState('');
 
@@ -17,34 +17,62 @@ export const ContactList = () => {
     dispatch(deleteContactThunk(id));
   };
 
-  const handleEdit = ({ id, name, number }) => {
-    dispatch(editContactThunk(id, name, number));
+  const setEdit = (id, name, number) => {
+    setEditName(name);
+    setEditNumber(number);
+    setIndexEdit(id);
+  };
+
+  const handleEdit = (e, id) => {
+    e.preventDefault();
+    setIndexEdit(null);
+    dispatch(
+      editContactThunk({
+        id,
+        name: editName,
+        number: editNumber,
+        contacts: filteredContacts,
+      })
+    );
   };
   return (
     <ul className={styles.contactList}>
       {filteredContacts.map(contact => (
         <li className={styles.contactItem} key={contact.id}>
-          {isEdit ? (
-            <form>
-              <input
-                type="text"
-                value={editName}
-                onChange={event => setEditName(event.target.value)}
-              />
-              <input
-                type="text"
-                value={editNumber}
-                onChange={event => setEditNumber(event.target.value)}
-              />
-              <button onClick={() => handleEdit()}>Save</button>
-            </form>
+          {indexEdit === contact.id ? (
+            <>
+              <form>
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={event => setEditName(event.target.value)}
+                />
+                <input
+                  type="text"
+                  value={editNumber}
+                  onChange={event => setEditNumber(event.target.value)}
+                />
+              </form>
+              <button onClick={e => handleEdit(e, contact.id)}>Save</button>
+              <button onClick={() => setIndexEdit(null)}>Cancel</button>
+            </>
           ) : (
-            <span>
-              {contact.name}: {contact.number}
-            </span>
+            <>
+              <span>
+                {contact.name}: {contact.number}
+              </span>
+              <div>
+                <button onClick={() => handleDelete(contact.id)}>Delete</button>
+                <button
+                  onClick={() =>
+                    setEdit(contact.id, contact.name, contact.number)
+                  }
+                >
+                  Edit
+                </button>
+              </div>
+            </>
           )}
-          <button onClick={() => handleDelete(contact.id)}>Delete</button>
-          <button onClick={() => stateIsEdit(true)}>Edit</button>
         </li>
       ))}
     </ul>
