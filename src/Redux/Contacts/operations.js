@@ -1,12 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { instance } from 'Redux/auth/authOperations';
+import { instance } from 'service/axios';
 
-export const fetchAllContactsThunk = createAsyncThunk(
-  'contacts/fetchAll',
-  async thunkAPI => {
+export const editContactThunk = createAsyncThunk(
+  'contact/edit',
+  async ({ id, name, number }, thunkAPI) => {
     try {
-      const { data } = await instance.get('contacts');
-
+      const { data } = await instance.patch(`contacts/${id}`, { name, number });
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

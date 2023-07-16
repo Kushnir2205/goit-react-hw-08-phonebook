@@ -1,5 +1,6 @@
 import { registerThunk } from 'Redux/auth/authOperations';
 import { useDispatch } from 'react-redux';
+import styles from './RegisterPage.module.css';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -17,11 +18,26 @@ const RegisterPage = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <input type="text" name="name" required></input>
-      <input type="email" name="email" required></input>
-      <input type="password" name="password" required></input>
-      <button type="submit">Register</button>
+    <form className={styles.container} onSubmit={onSubmit}>
+      <label>Name</label>
+      <input className={styles.inputs} type="text" name="name" required></input>
+      <label>Mail</label>
+      <input
+        className={styles.inputs}
+        type="email"
+        name="email"
+        required
+      ></input>
+      <label>Paswword</label>
+      <input
+        className={styles.inputs}
+        type="password"
+        name="password"
+        required
+      ></input>
+      <button style={{ padding: '5px 10px' }} type="submit">
+        Register
+      </button>
     </form>
   );
 };

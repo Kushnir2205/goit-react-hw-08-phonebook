@@ -1,4 +1,4 @@
-import { selectIsLogged, selectIsRefreshing } from 'Redux/selectors';
+import { selectIsLogged, selectIsRefreshing } from 'Redux/selector';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';

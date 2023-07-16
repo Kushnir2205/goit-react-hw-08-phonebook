@@ -1,6 +1,6 @@
 import { loginThunk } from 'Redux/auth/authOperations';
 import { useDispatch } from 'react-redux';
-
+import styles from './LoginPage.module.css';
 const LoginPage = () => {
   const dispatch = useDispatch();
   const onSubmit = event => {
@@ -15,10 +15,24 @@ const LoginPage = () => {
     event.target.reset();
   };
   return (
-    <form onSubmit={onSubmit}>
-      <input type="email" name="email" required></input>
-      <input type="password" name="password" required></input>
-      <button type="submit">Login</button>
+    <form className={styles.container} onSubmit={onSubmit}>
+      <label>Mail</label>
+      <input
+        className={styles.inputs}
+        type="email"
+        name="email"
+        required
+      ></input>
+      <label>Password</label>
+      <input
+        className={styles.inputs}
+        type="password"
+        name="password"
+        required
+      ></input>
+      <button style={{ padding: '5px 10px' }} type="submit">
+        Login
+      </button>
     </form>
   );
 };

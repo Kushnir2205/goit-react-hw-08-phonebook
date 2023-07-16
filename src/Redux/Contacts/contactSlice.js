@@ -4,7 +4,7 @@ import {
   deleteContactThunk,
   getContactsThunk,
 } from '../thunks';
-import { fetchAllContactsThunk } from './operations';
+import { editContactThunk } from './operations';
 
 const contactSlice = createSlice({
   name: 'contacts',
@@ -49,6 +49,11 @@ const contactSlice = createSlice({
       })
       .addCase(deleteContactThunk.pending, state => {
         state.isLoading = true;
+      })
+      .addCase(editContactThunk.fulfilled, (state, { payload }) => {
+        state.items = payload;
+        state.isLoading = false;
+        state.error = null;
       });
   },
 });
